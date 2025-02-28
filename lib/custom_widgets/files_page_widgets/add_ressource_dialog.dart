@@ -122,7 +122,7 @@ class _AddRessourceDialogState extends State<AddRessourceDialog> {
       return;
     }
 
-    if (nameController.text.codeUnits.every((b) => b < 128)) {
+    if (nameController.text.codeUnits.any((b) => b > 127)) {
       showAlertDialogInvalidString(context);
       return;
     }

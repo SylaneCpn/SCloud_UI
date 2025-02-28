@@ -24,7 +24,7 @@ void showAlertDialogRefused(BuildContext context) {
   void showAlertDialogNoFilesSelected(BuildContext context) {
     AlertDialog alert = AlertDialog(
                   title: const Text('Aucun fichier sélectionné'),
-                  content: const Text("Choissisez des fichiers à stocker sur le serveur"),
+                  content: const Text("Choissisez des fichiers à stocker sur le serveur."),
                   actions: <Widget>[
                     TextButton(
                       onPressed: () => Navigator.pop(context, 'OK'),
@@ -39,7 +39,7 @@ void showAlertDialogRefused(BuildContext context) {
   void showAlertDialogEmptyDirName(BuildContext context) {
     AlertDialog alert = AlertDialog(
                   title: const Text('Aucun nom choissi'),
-                  content: const Text("Aucun nom n'a été choissi pour le dossier a créer"),
+                  content: const Text("Aucun nom n'a été choissi pour le dossier a créer."),
                   actions: <Widget>[
                     TextButton(
                       onPressed: () => Navigator.pop(context, 'OK'),
@@ -54,7 +54,7 @@ void showAlertDialogRefused(BuildContext context) {
   void showAlertDialogInvalidString(BuildContext context) {
     AlertDialog alert = AlertDialog(
                   title: const Text('Nom invalide'),
-                  content: const Text("Les caractères spéciaux ne sont pas autorisés"),
+                  content: const Text("Les caractères spéciaux ne sont pas autorisés."),
                   actions: <Widget>[
                     TextButton(
                       onPressed: () => Navigator.pop(context, 'OK'),
@@ -137,33 +137,33 @@ void showAlertDialogNetworkFail(BuildContext context) {
 
 void showSnackBarRefused(BuildContext context) {
   ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Vous n'avez pas access à cette source")),
+              SnackBar(content: Text("Vous n'avez pas access à cette source.")),
             );
 }
 
 void showSnackBarSuccessFileSend(BuildContext context) {
   ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Fichier(s) envoyé(s) avec succès")),
+              SnackBar(content: Text("Fichier(s) envoyé(s) avec succès.")),
             );
 }
 
 
 void showSnackBarFailFileSend(BuildContext context) {
   ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Erreur : Le serveur n'autorise pas la création de fichier(s) ou n'a pas pu écrire tous les fichiers")),
+              SnackBar(content: Text("Erreur : Le serveur n'autorise pas la création de fichier(s) ou n'a pas pu écrire tous les fichiers.")),
             );
 }
 
 void showSnackBarSuccessDirAdd(BuildContext context) {
   ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Dossier crée avec succès")),
+              SnackBar(content: Text("Dossier crée avec succès.")),
             );
 }
 
 
 void showSnackBarFailDirAdd(BuildContext context) {
   ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Erreur : Le serveur n'autorise pas la création de dossier ou n'a pas pu écrire le dossier")),
+              SnackBar(content: Text("Erreur : Le serveur n'autorise pas la création de dossier ou n'a pas pu écrire le dossier.")),
             );
 }
 

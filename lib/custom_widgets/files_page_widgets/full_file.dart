@@ -57,15 +57,33 @@ class FullFile extends StatelessWidget{
     ) ;
 
     default:
+
+    //TODO : Refactor and add the remaining widgets for each case.
         if (contentType == 'image') {
             body = Image.memory(state.fileContent) ;
         }
 
-        else {
+        else if (contentType == 'video') {
+          body = Placeholder();
+        }
+
+        else if (contentType == 'pdf') {
+          body = Placeholder();
+        }
+
+        else if (contentType == 'txt') {
           body = Padding(
             padding: const EdgeInsets.all(20.0),
             child: SelectableText(String.fromCharCodes(state.fileContent)),
           );
+        }
+
+        else if (contentType == 'code_file') {
+          body = Placeholder();
+        }
+
+        else {
+          body = Placeholder();
         }
         
     }
