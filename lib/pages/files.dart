@@ -20,7 +20,10 @@ class FilesPage extends StatelessWidget {
     Widget userPicture = state.isConnected && (state.pathState == FetchingState.success) ? Padding(
       padding: const EdgeInsets.all(8.0),
       child: CircleAvatar(backgroundImage: NetworkImage(state.userAvatarPath()),),
-    )  : Icon(Icons.double_arrow_sharp) ;
+    )  : Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Image.asset('assets/icon/icon_white.png'),
+    ) ;
 
     final body = switch (state.pathState) {
 

@@ -15,7 +15,10 @@ class ConnectedPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Theme.of(context).colorScheme.onPrimary,
-        leading: Icon(Icons.double_arrow_sharp),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Image.asset('assets/icon/icon_white.png'),
+        ),
         title: const Text('Connecté'),
       ),
       body: Container(

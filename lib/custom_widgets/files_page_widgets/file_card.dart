@@ -24,11 +24,14 @@ class FileCard  extends StatelessWidget{
     final targetPath = state.filesInPath[index].full_path;
     final name = state.filesInPath[index].name;
 
-    final image = switch (contentType) {
+    var image = switch (contentType) {
 
-      "dir" => NetworkImage("https://www.iconpacks.net/icons/2/free-folder-icon-1485-thumb.png"),
-      "image" => NetworkImage(state.parseGetExtPath(targetPath)),
-      _ => NetworkImage("https://w7.pngwing.com/pngs/401/463/png-transparent-document-file-format-computer-icons-paper-sheet-miscellaneous-template-angle-thumbnail.png")
+
+      "pdf" => Image.asset("assets/img/pdf.png"),
+      "dir" => Image ( image : NetworkImage("https://www.iconpacks.net/icons/2/free-folder-icon-1485-thumb.png")),
+      "image" => Image(image : NetworkImage(state.parseGetExtPath(targetPath))),
+      "video" => Image.asset("assets/img/video.png"),
+      _ => Image( image : NetworkImage("https://w7.pngwing.com/pngs/401/463/png-transparent-document-file-format-computer-icons-paper-sheet-miscellaneous-template-angle-thumbnail.png"))
 
     };
 
@@ -51,6 +54,12 @@ class FileCard  extends StatelessWidget{
       Navigator.push(context, MaterialPageRoute(builder: (_) => FullFile(index: index,)));
     };
 
+    final rmDir = () {
+
+      showConfirmRmDialog(context,index);
+
+    };
+
 
 
     final iconWidgets = <Widget>[
@@ -58,8 +67,8 @@ class FileCard  extends StatelessWidget{
                       child: IconButton(onPressed: contentType == "dir" ? openDir : openFile
                       , icon: Icon(Icons.zoom_out_map_rounded)),
                     ),
-                    Expanded(
-                      child: IconButton(onPressed: () {}, icon: Icon(Icons.delete)),
+                    if (!state.isRootPath())Expanded(
+                      child: IconButton(onPressed: rmDir, icon: Icon(Icons.delete)),
                     ),
                   ];
     if (contentType != "dir") {
@@ -75,7 +84,7 @@ class FileCard  extends StatelessWidget{
         children: [
           Expanded(
             flex : 1,
-            child: Image(image: image)),
+            child: image ),
           Expanded(
             flex : 1,
             child: Column(

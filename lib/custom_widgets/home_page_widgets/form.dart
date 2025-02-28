@@ -32,8 +32,11 @@ class _LoginFormState extends State<LoginForm> {
     var state = context.watch<AppState>();
 
     return Scaffold(
-      appBar: AppBar(title: Text('Connectez-vous'),
-      leading: Icon(Icons.double_arrow_sharp),
+      appBar: AppBar(title: Text('Connexion'),
+      leading: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Image.asset('assets/icon/icon_white.png'),
+      ),
       backgroundColor: Theme.of(context).colorScheme.primary,
       foregroundColor: Theme.of(context).colorScheme.onPrimary,
       ),

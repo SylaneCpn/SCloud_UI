@@ -82,13 +82,13 @@ class _AddRessourceDialogState extends State<AddRessourceDialog> {
         return;
       }
 
-      List<bool> results = [];
+      List<FetchingReport> results = [];
       final state = context.read<AppState>();
       for (final path in filesPaths) {
         results.add(await state.sendFile(path));
       }
 
-      if (results.any((elem) => !elem)) {
+      if (results.any((elem) => elem != FetchingReport.success)) {
         Navigator.pop(context);
         showSnackBarFailFileSend(context);
       }
@@ -121,13 +121,18 @@ class _AddRessourceDialogState extends State<AddRessourceDialog> {
       showAlertDialogEmptyDirName(context);
       return;
     }
+
+    if (nameController.text.codeUnits.every((b) => b < 128)) {
+      showAlertDialogInvalidString(context);
+      return;
+    }
     
     try {
 
       final state = context.read<AppState>();
       final result = await state.addDir(makeValidDirname(dirName));
 
-      if (!result) {
+      if (result != FetchingReport.success) {
         Navigator.pop(context);
         showSnackBarFailDirAdd(context);
       }

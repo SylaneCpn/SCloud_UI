@@ -40,7 +40,7 @@ class AppState extends ChangeNotifier {
 
   bool isRootPath() => currentPath == "files/" ? true : false;
 
-  Future<bool> sendFile(String path) async {
+  Future<FetchingReport> sendFile(String path) async {
 
     try {
       //get the file 
@@ -52,8 +52,8 @@ class AppState extends ChangeNotifier {
       final headers = <String, String> { 'Content-Type' : matchMimetypeFromExt(fName) }; 
       final response = await http.post(Uri.parse(parseAddFilePath(fName)) , headers: headers , body : body);
 
-      if (response.statusCode == 200) return true;
-      return false;
+      if (response.statusCode == 200) return FetchingReport.success;
+      return FetchingReport.refused;
       
     } 
     catch (e) {
@@ -62,20 +62,36 @@ class AppState extends ChangeNotifier {
     
   }
 
-  Future<bool> addDir(String dirName) async {
+  Future<FetchingReport> addDir(String dirName) async {
 
     try {
      
       final response = await http.post(Uri.parse(parseAddDirPath(dirName)));
 
-      if (response.statusCode == 200) return true;
-      return false;
+      if (response.statusCode == 200) return FetchingReport.success;
+      return FetchingReport.refused;
       
     } 
     catch (e) {
       rethrow;
     }
     
+  }
+
+  Future<FetchingReport> rmRessource(String path) async {
+
+    try {
+
+      final response = await http.delete(Uri.parse(parseRmPath(path)));
+      if (response.statusCode == 200) return FetchingReport.success;
+      return FetchingReport.refused;
+
+    }
+
+    catch(e) {
+      return FetchingReport.networkFail;
+    }
+ 
   }
 
   Future<void> downloadFile(int index, BuildContext context) async {

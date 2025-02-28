@@ -1,4 +1,9 @@
+// ignore_for_file: prefer_function_declarations_over_variables
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sylcpn_io/data_structures/appstate.dart';
+import 'package:sylcpn_io/data_structures/fetching_report.dart';
 
 void showAlertDialogRefused(BuildContext context) {
     AlertDialog alert = AlertDialog(
@@ -34,7 +39,22 @@ void showAlertDialogRefused(BuildContext context) {
   void showAlertDialogEmptyDirName(BuildContext context) {
     AlertDialog alert = AlertDialog(
                   title: const Text('Aucun nom choissi'),
-                  content: const Text("Aucun nom n'a été choissis pour le dossier a créer"),
+                  content: const Text("Aucun nom n'a été choissi pour le dossier a créer"),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, 'OK'),
+                      child: const Text('OK'),
+                    ),
+                  ],
+                );
+
+    showDialog(barrierDismissible: false, context: context, builder: (BuildContext context) {return alert;});
+  }
+
+  void showAlertDialogInvalidString(BuildContext context) {
+    AlertDialog alert = AlertDialog(
+                  title: const Text('Nom invalide'),
+                  content: const Text("Les caractères spéciaux ne sont pas autorisés"),
                   actions: <Widget>[
                     TextButton(
                       onPressed: () => Navigator.pop(context, 'OK'),
@@ -54,6 +74,60 @@ void showAlertDialogNetworkFail(BuildContext context) {
                     TextButton(
                       onPressed: () => Navigator.pop(context, 'OK'),
                       child: const Text('OK'),
+                    ),
+                  ],
+                );
+
+    showDialog(barrierDismissible: false, context: context, builder: (BuildContext context) {return alert;});
+  }
+
+  void showConfirmRmDialog(BuildContext context , int index) {
+    final state = context.read<AppState>();
+
+    final fullPath = state.filesInPath[index].full_path;
+    final name = state.filesInPath[index].name;
+    
+    final continueCallBack = () async {
+
+      Navigator.pop(context);
+      final report = await state.rmRessource(fullPath);
+
+      if (report == FetchingReport.success) {
+        ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("La ressource $name supprimée avec succès !")),
+            );
+      }
+
+      else if (report == FetchingReport.refused) {
+
+        ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("La ressource $name n'a pas pu être supprimée.")),
+            );
+
+      }
+
+      else {
+        ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Erreur de réseau, la ressource n'a pas été supprimée.")),
+            );
+      }
+
+      state.refreshDir();
+
+    };
+
+
+    AlertDialog alert = AlertDialog(
+                  title: const Text("Continuer l'action ?"),
+                  content: Text("Vous êtes sur le point de supprimer la ressource : $name. Poursuivre l'opération ?"),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Annuler'),
+                    ),
+                    TextButton(
+                      onPressed: continueCallBack,
+                      child: const Text('Continuer'),
                     ),
                   ],
                 );
