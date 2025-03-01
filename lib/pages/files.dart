@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:sylcpn_io/custom_widgets/files_page_widgets/default_files_page.dart';
 import 'package:sylcpn_io/data_structures/fetching_state.dart';
 
+
 class FilesPage extends StatelessWidget {
   const FilesPage({
     super.key,
@@ -32,6 +33,8 @@ class FilesPage extends StatelessWidget {
       FetchingState.failure => ErrorFilesPage(), 
 
     };
+
+    
 
     return Scaffold(
       appBar: AppBar(title: Text('Fichiers'),

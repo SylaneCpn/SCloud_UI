@@ -6,6 +6,12 @@ String? getExtention(String fileName) {
 }
 
 
+String localPath(String path) {
+  final pos = path.indexOf("/");
+  return path.substring(pos);
+}
+
+
 String matchMimetype(String fileName , String contentType) {
 
   String mime;

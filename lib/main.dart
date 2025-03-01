@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:media_kit/media_kit.dart';
 import 'package:sylcpn_io/main_page.dart';
 import 'package:provider/provider.dart';
 import 'package:sylcpn_io/data_structures/appstate.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  print('passed');
+  // Necessary initialization for package:media_kit.
+  MediaKit.ensureInitialized();
   runApp(const App());
 }
 

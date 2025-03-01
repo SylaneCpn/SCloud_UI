@@ -17,7 +17,7 @@ import 'dart:io' show File, Platform;
 import "package:sylcpn_io/utils.dart";
 
 class AppState extends ChangeNotifier {
-  final addr = "http://192.168.177.106:8000";
+  final addr = "http://192.168.50.45:8000";
   String name = "null";
   String password = "null";
   String currentPath = "files/";
@@ -320,6 +320,7 @@ class AppState extends ChangeNotifier {
 
   Future<void> initFullFile(String path) async {
     try {
+      
       final response = await http.get(Uri.parse(parseGetExtPath(path)));
 
       if (response.statusCode == 200) {

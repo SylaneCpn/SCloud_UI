@@ -1,6 +1,11 @@
 
+
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:pdfrx/pdfrx.dart';
 import 'package:provider/provider.dart';
+import 'package:sylcpn_io/custom_widgets/video_player.dart';
 import 'package:sylcpn_io/data_structures/appstate.dart';
 import 'package:sylcpn_io/data_structures/fetching_state.dart';
 
@@ -11,6 +16,34 @@ class FullFile extends StatelessWidget{
 
   const FullFile({super.key , required this.index});
 
+
+  Widget mapContentTypeWidget(String contentType , Uint8List content ) {
+
+    return switch (contentType) {
+      "txt" => Card(
+        child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: SelectableText(String.fromCharCodes(content)),
+            ),
+      ),
+      "code_file" => Card(
+        child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: SelectableText(String.fromCharCodes(content)),
+            ),
+      ),
+      "image" => Image.memory(content),
+      "video" => VideoPlayer(content: content),
+      "pdf" => PdfViewer.data(content, sourceName: "" , params: PdfViewerParams(enableTextSelection: true , enableKeyboardNavigation: true , panEnabled: true),),
+      _ => Card(
+        child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: SelectableText(String.fromCharCodes(content)),
+            ),
+      ),
+
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +58,10 @@ class FullFile extends StatelessWidget{
     if (state.fileState == FetchingState.init) state.initFullFile(path);
 
 
-    final Widget body;
-    switch (state.fileState) {
-      case FetchingState.init:
-        body = Center(
+    
+    final body = switch (state.fileState) {
+      FetchingState.init =>
+        Center(
       child: Column( 
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -39,10 +72,10 @@ class FullFile extends StatelessWidget{
           Text('En attente de données...')
         
       ],),
-    );
+    ),
 
-    case FetchingState.failure:
-        body = Center(
+    FetchingState.failure =>
+        Center(
       child: Column( 
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -54,39 +87,12 @@ class FullFile extends StatelessWidget{
           ElevatedButton(onPressed: state.resetFileInPath , child: Text("Réessayez"))
         
       ],),
-    ) ;
+    ),
 
-    default:
-
-    //TODO : Refactor and add the remaining widgets for each case.
-        if (contentType == 'image') {
-            body = Image.memory(state.fileContent) ;
-        }
-
-        else if (contentType == 'video') {
-          body = Placeholder();
-        }
-
-        else if (contentType == 'pdf') {
-          body = Placeholder();
-        }
-
-        else if (contentType == 'txt') {
-          body = Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: SelectableText(String.fromCharCodes(state.fileContent)),
-          );
-        }
-
-        else if (contentType == 'code_file') {
-          body = Placeholder();
-        }
-
-        else {
-          body = Placeholder();
-        }
+    _ => mapContentTypeWidget(contentType, state.fileContent  ),
         
-    }
+        
+    };
 
     
 
@@ -96,7 +102,7 @@ class FullFile extends StatelessWidget{
       foregroundColor: Theme.of(context).colorScheme.onPrimary,
       title: Text(fileName),
       leading: IconButton(onPressed: () { Navigator.pop(context); state.resetFullFile();} , icon: Icon(Icons.arrow_back)),),
-      body: Center(child: Card(child: body),),
+      body: Container(color: Theme.of(context).colorScheme.primaryContainer, child: Center(child: body,)),
     );
   }
 }

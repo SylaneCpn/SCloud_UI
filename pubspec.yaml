@@ -44,6 +44,10 @@ dependencies:
   path: ^1.9.1
   flutter_file_dialog: ^3.0.2
   flutter_launcher_icons: ^0.14.3
+  pdfrx: ^1.1.11
+  media_kit: ^1.1.11
+  media_kit_video: ^1.2.5
+  media_kit_libs_video: ^1.0.5
 
 
 dev_dependencies:
