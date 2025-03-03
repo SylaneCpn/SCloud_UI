@@ -135,6 +135,22 @@ void showAlertDialogNetworkFail(BuildContext context) {
     showDialog(barrierDismissible: false, context: context, builder: (BuildContext context) {return alert;});
   }
 
+
+  void showNotConnectedDialog(BuildContext context) {
+    AlertDialog alert = AlertDialog(
+                  title: const Text('Vous devez vous connecter'),
+                  content: const Text("Vous devez être connecté pour pouvoir réaliser cette action."),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, 'OK'),
+                      child: const Text('OK'),
+                    ),
+                  ],
+                );
+
+    showDialog(barrierDismissible: false, context: context, builder: (BuildContext context) {return alert;});
+  }
+
 void showSnackBarRefused(BuildContext context) {
   ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("Vous n'avez pas access à cette source.")),

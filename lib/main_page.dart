@@ -27,7 +27,7 @@ class _MainPageState extends State<MainPage> {
             currentPageIndex = index;
           });
         },
-        indicatorColor: Theme.of(context).colorScheme.primary,
+        // indicatorColor: Theme.of(context).colorScheme.primary,
         selectedIndex: currentPageIndex,
         destinations: [
           NavigationDestination(

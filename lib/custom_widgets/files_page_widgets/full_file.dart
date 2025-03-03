@@ -89,7 +89,7 @@ class FullFile extends StatelessWidget{
       ],),
     ),
 
-    _ => mapContentTypeWidget(contentType, state.fileContent  ),
+    _ => mapContentTypeWidget(contentType, state.fileContent ),
         
         
     };

@@ -28,10 +28,11 @@ class FileCard  extends StatelessWidget{
 
 
       "pdf" => Image.asset("assets/img/pdf.png"),
-      "dir" => Image ( image : NetworkImage("https://www.iconpacks.net/icons/2/free-folder-icon-1485-thumb.png")),
+      "dir" => Image.asset("assets/img/dir.png"),
+      "code_file" => Image.asset("assets/img/code_file.png"),
       "image" => Image(image : NetworkImage(state.parseGetExtPath(targetPath))),
       "video" => Image.asset("assets/img/video.png"),
-      _ => Image( image : NetworkImage("https://w7.pngwing.com/pngs/401/463/png-transparent-document-file-format-computer-icons-paper-sheet-miscellaneous-template-angle-thumbnail.png"))
+      _ => Image.asset("assets/img/file.png")
 
     };
 
@@ -56,7 +57,9 @@ class FileCard  extends StatelessWidget{
 
     final rmDir = () {
 
-      showConfirmRmDialog(context,index);
+      if (state.isConnected) {showConfirmRmDialog(context,index);}
+
+      else{ showNotConnectedDialog(context); }
 
     };
 

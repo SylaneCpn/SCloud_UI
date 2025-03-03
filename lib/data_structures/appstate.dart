@@ -17,7 +17,7 @@ import 'dart:io' show File, Platform;
 import "package:sylcpn_io/utils.dart";
 
 class AppState extends ChangeNotifier {
-  final addr = "http://192.168.50.45:8000";
+  final addr = "http://192.168.177.106:8000";
   String name = "null";
   String password = "null";
   String currentPath = "files/";
@@ -98,6 +98,8 @@ class AppState extends ChangeNotifier {
     try {
       final String url = parseGetExtPath(filesInPath[index].full_path);
 
+      
+
       if (kIsWeb) {
         final dir =
             await getDownloadsDirectory() ??
@@ -105,6 +107,9 @@ class AppState extends ChangeNotifier {
         final filePath = "${dir.path}/${filesInPath[index].name}";
 
         final dio = Dio();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Début du téléchergement de : ${filesInPath[index].name}.')),
+        );
         await dio.download(url, filePath);
 
         ScaffoldMessenger.of(context).showSnackBar(
@@ -117,6 +122,9 @@ class AppState extends ChangeNotifier {
           final mimeType = matchMimetype(
             filesInPath[index].name,
             filesInPath[index].content_type,
+          );
+          ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Début du téléchergement de : ${filesInPath[index].name}.')),
           );
           final bytes = await getRawRessource(filesInPath[index].full_path);
           final filePath = await FlutterFileDialog.saveFileToDirectory(
@@ -136,7 +144,9 @@ class AppState extends ChangeNotifier {
           final fileName = path.basename(url);
           final dio = Dio();
           final savePath = "$selectedDir/$fileName";
-
+          ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Début du téléchergement de : ${filesInPath[index].name}.')),
+          );
           await dio.download(url, savePath);
 
           ScaffoldMessenger.of(context).showSnackBar(
