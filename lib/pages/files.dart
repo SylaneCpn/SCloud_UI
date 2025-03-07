@@ -39,7 +39,7 @@ class FilesPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text('Fichiers'),
       leading: GestureDetector( onTap: state.resetFileInPath,child: userPicture ,),
-      backgroundColor: Theme.of(context).colorScheme.primary,
+      backgroundColor: Color.fromARGB(255, 82, 113, 255),
       foregroundColor: Theme.of(context).colorScheme.onPrimary,
       ),
       body: body ,

@@ -37,7 +37,7 @@ class _LoginFormState extends State<LoginForm> {
         padding: const EdgeInsets.all(8.0),
         child: Image.asset('assets/icon/icon_white.png'),
       ),
-      backgroundColor: Theme.of(context).colorScheme.primary,
+      backgroundColor: Color.fromARGB(255, 82, 113, 255),
       foregroundColor: Theme.of(context).colorScheme.onPrimary,
       ),
       body: Container(

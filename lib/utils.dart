@@ -1,3 +1,11 @@
+import 'package:highlighting/languages/rust.dart';
+import 'package:highlighting/languages/c.dart';
+import 'package:highlighting/languages/python.dart';
+import 'package:highlighting/languages/javascript.dart';
+import 'package:highlighting/languages/css.dart';
+import 'package:highlighting/languages/php-template.dart';
+import 'package:highlighting/languages/typescript.dart';
+
 String? getExtention(String fileName) {
 
   final pointpos = fileName.lastIndexOf('.');
@@ -77,3 +85,17 @@ String makeValidDirname(String dirName) {
   return dirName.trim().replaceAll(" ", '_');
   
 }
+
+String languageId(String name) {
+  final ext = getExtention(name)!;
+  return switch (ext) {
+    "rs" => rust.id,
+    'py' => python.id,
+    "js" => javascript.id,
+    "html" => phpTemplate.id,
+    "css" => css.id,
+    "ts" => typescript.id,
+    _ => c.id,
+  };
+  
+  }

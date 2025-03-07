@@ -8,7 +8,9 @@ import 'package:provider/provider.dart';
 import 'package:sylcpn_io/custom_widgets/video_player.dart';
 import 'package:sylcpn_io/data_structures/appstate.dart';
 import 'package:sylcpn_io/data_structures/fetching_state.dart';
-
+import 'package:flutter_highlighting/flutter_highlighting.dart';
+import 'package:flutter_highlighting/themes/vs.dart';
+import 'package:sylcpn_io/utils.dart';
 
 class FullFile extends StatelessWidget{
 
@@ -17,7 +19,7 @@ class FullFile extends StatelessWidget{
   const FullFile({super.key , required this.index});
 
 
-  Widget mapContentTypeWidget(String contentType , Uint8List content ) {
+  Widget mapContentTypeWidget(String fileName ,String contentType , Uint8List content ) {
 
     return switch (contentType) {
       "txt" => Card(
@@ -27,10 +29,9 @@ class FullFile extends StatelessWidget{
             ),
       ),
       "code_file" => Card(
-        child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: SelectableText(String.fromCharCodes(content)),
-            ),
+        child: SingleChildScrollView(
+          child: HighlightView(padding: EdgeInsets.all(20.0), languageId: languageId(fileName), theme: vsTheme ,String.fromCharCodes(content)),
+        ),
       ),
       "image" => Image.memory(content),
       "video" => VideoPlayer(content: content),
@@ -89,7 +90,7 @@ class FullFile extends StatelessWidget{
       ],),
     ),
 
-    _ => mapContentTypeWidget(contentType, state.fileContent ),
+    _ => mapContentTypeWidget(state.name, contentType, state.fileContent ),
         
         
     };
@@ -98,7 +99,7 @@ class FullFile extends StatelessWidget{
 
     return Scaffold(
       appBar: AppBar( 
-      backgroundColor: Theme.of(context).colorScheme.primary,
+      backgroundColor: Color.fromARGB(255, 82, 113, 255),
       foregroundColor: Theme.of(context).colorScheme.onPrimary,
       title: Text(fileName),
       leading: IconButton(onPressed: () { Navigator.pop(context); state.resetFullFile();} , icon: Icon(Icons.arrow_back)),),
