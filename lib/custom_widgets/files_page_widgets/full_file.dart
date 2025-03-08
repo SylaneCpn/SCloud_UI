@@ -36,10 +36,10 @@ class FullFile extends StatelessWidget{
       "image" => Image.memory(content),
       "video" => VideoPlayer(content: content),
       "pdf" => PdfViewer.data(content, sourceName: "" , params: PdfViewerParams(enableTextSelection: true , enableKeyboardNavigation: true , panEnabled: true),),
-      _ => Card(
+      _ =>   Card(
         child: Padding(
               padding: const EdgeInsets.all(20.0),
-              child: SelectableText(String.fromCharCodes(content)),
+              child: content.length < 10000 ? SelectableText(String.fromCharCodes(content)) : Text("Le fichier est trop volumineux pour être ouvert..."),
             ),
       ),
 
@@ -97,13 +97,16 @@ class FullFile extends StatelessWidget{
 
     
 
-    return Scaffold(
-      appBar: AppBar( 
-      backgroundColor: Color.fromARGB(255, 82, 113, 255),
-      foregroundColor: Theme.of(context).colorScheme.onPrimary,
-      title: Text(fileName),
-      leading: IconButton(onPressed: () { Navigator.pop(context); state.resetFullFile();} , icon: Icon(Icons.arrow_back)),),
-      body: Container(color: Theme.of(context).colorScheme.primaryContainer, child: Center(child: body,)),
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        appBar: AppBar( 
+        backgroundColor: Color.fromARGB(255, 82, 113, 255),
+        foregroundColor: Theme.of(context).colorScheme.onPrimary,
+        title: Text(fileName),
+        leading: IconButton(onPressed: () { Navigator.pop(context); state.resetFullFile();} , icon: Icon(Icons.arrow_back)),),
+        body: Container(color: Theme.of(context).colorScheme.primaryContainer, child: Center(child: body,)),
+      ),
     );
   }
 }
