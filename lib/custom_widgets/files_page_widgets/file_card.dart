@@ -3,7 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sylcpn_io/custom_widgets/alert_dialog.dart';
-import 'package:sylcpn_io/custom_widgets/files_page_widgets/full_file.dart';
+// import 'package:sylcpn_io/custom_widgets/files_page_widgets/full_file.dart';
+import 'package:sylcpn_io/custom_widgets/files_page_widgets/single_file_page/single_file.dart';
 import 'package:sylcpn_io/data_structures/appstate.dart';
 import 'package:sylcpn_io/data_structures/fetching_report.dart';
 
@@ -52,7 +53,7 @@ class FileCard  extends StatelessWidget{
     };
 
     final openFile = () {
-      Navigator.push(context, MaterialPageRoute(builder: (_) => FullFile(index: index,)));
+      Navigator.push(context, MaterialPageRoute(builder: (_) => SingleFile(url : state.parseGetExtPath(targetPath) , name: name , contentType: contentType,)));
     };
 
     final rmDir = () {

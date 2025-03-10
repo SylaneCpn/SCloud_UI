@@ -13,7 +13,7 @@ class ConnectedPage extends StatelessWidget {
     var state = context.watch<AppState>();
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 82, 113, 255),
+        backgroundColor: state.appColor,
         foregroundColor: Theme.of(context).colorScheme.onPrimary,
         leading: Padding(
           padding: const EdgeInsets.all(8.0),

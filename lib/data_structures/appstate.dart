@@ -17,24 +17,24 @@ import 'dart:io' show File, Platform;
 import "package:sylcpn_io/utils.dart";
 
 class AppState extends ChangeNotifier {
-  final addr = "http://192.168.50.45:8000";
+  final addr = "http://192.168.177.106:8000";
   String name = "null";
   String password = "null";
   String currentPath = "files/";
   bool isConnected = false;
   List<ServerFile> filesInPath = [];
   FetchingState pathState = FetchingState.init;
-  FetchingState fileState = FetchingState.init;
-  Uint8List fileContent = Uint8List(0);
+  Color appColor = Color.fromARGB(255, 82, 113, 255);
+ 
 
   String parseGetExtPath(String path) => "$addr/usr/$name/psw/$password/$path";
   String parseVerifPath(String n, String p) => "$addr/usr/$n/psw/$p/";
   String parseGetPath() => "$addr/usr/$name/psw/$password/$currentPath";
   String parseRmPath(String path) => "$addr/rm/usr/$name/psw/$password/$path";
   String parseAddFilePath(String fileName) =>
-      "$addr/addfile/usr/$name/psw/$password/$currentPath/$fileName";
+      "$addr/addfile/usr/$name/psw/$password/$currentPath$fileName";
   String parseAddDirPath(String dirName) =>
-      "$addr/adddir/usr/$name/psw/$password/$currentPath/$dirName";
+      "$addr/adddir/usr/$name/psw/$password/$currentPath$dirName";
   String userAvatarPath() =>
       "$addr/usr/$name/psw/$password/files/$name/portrait.jpg";
 
@@ -328,28 +328,4 @@ class AppState extends ChangeNotifier {
     resetFileInPath();
   }
 
-  Future<void> initFullFile(String path) async {
-    try {
-      
-      final response = await http.get(Uri.parse(parseGetExtPath(path)));
-
-      if (response.statusCode == 200) {
-        fileContent = response.bodyBytes;
-        fileState = FetchingState.success;
-      } else {
-        fileContent = Uint8List(0);
-        fileState = FetchingState.failure;
-      }
-    } catch (e) {
-      fileState = FetchingState.failure;
-    } finally {
-      notifyListeners();
-    }
-  }
-
-  void resetFullFile() {
-    fileState = FetchingState.init;
-    fileContent = Uint8List(0);
-    // notifyListeners();
-  }
 }

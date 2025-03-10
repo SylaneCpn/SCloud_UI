@@ -27,7 +27,7 @@ class _AddRessourceDialogState extends State<AddRessourceDialog> {
   var nameController = TextEditingController();
   RessourceType? selectedType = RessourceType.file;
   List<String> filesPaths = [];
-  String dirName ="";
+ 
 
   void setRessourceState(AddRessourceState newState) {
     setState(() {
@@ -37,7 +37,6 @@ class _AddRessourceDialogState extends State<AddRessourceDialog> {
 
   void resetRessourceState() {
     filesPaths = [];
-    dirName = "";
     setRessourceState(AddRessourceState.init);
     
   }
@@ -116,7 +115,6 @@ class _AddRessourceDialogState extends State<AddRessourceDialog> {
   Future<void> createDir(BuildContext context) async {
 
 
-    String dirName = nameController.text;
     if (nameController.text.isEmpty) {
       showAlertDialogEmptyDirName(context);
       return;
@@ -130,11 +128,12 @@ class _AddRessourceDialogState extends State<AddRessourceDialog> {
     try {
 
       final state = context.read<AppState>();
-      final result = await state.addDir(makeValidDirname(dirName));
+      final result = await state.addDir( makeValidDirname(nameController.text));
 
       if (result != FetchingReport.success) {
         Navigator.pop(context);
         showSnackBarFailDirAdd(context);
+        return;
       }
 
 

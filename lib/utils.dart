@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:highlighting/languages/rust.dart';
 import 'package:highlighting/languages/c.dart';
 import 'package:highlighting/languages/python.dart';
@@ -5,6 +8,7 @@ import 'package:highlighting/languages/javascript.dart';
 import 'package:highlighting/languages/css.dart';
 import 'package:highlighting/languages/php-template.dart';
 import 'package:highlighting/languages/typescript.dart';
+import 'package:http/http.dart' as http;
 
 String? getExtention(String fileName) {
 
@@ -74,7 +78,7 @@ String matchMimetypeFromExt(String fileName) {
 
 String getRessourceName(String path) {
 
-  final pointpos = path.lastIndexOf('/');
+  final pointpos = Platform.isWindows ? path.lastIndexOf("\\") : path.lastIndexOf('/');
   final ext = path.substring(pointpos + 1);
   return ext;
 
@@ -98,4 +102,19 @@ String languageId(String name) {
     _ => c.id,
   };
   
+  }
+
+  Future<Uint8List> fetchData(String url) async  {
+
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      return response.bodyBytes;
+    }
+
+    else {
+      throw Exception("Une erreur s'est produite lors du chargement des données");
+    }
+
+
   }

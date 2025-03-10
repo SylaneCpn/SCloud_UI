@@ -94,7 +94,7 @@ void showAlertDialogNetworkFail(BuildContext context) {
 
       if (report == FetchingReport.success) {
         ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("La ressource $name supprimée avec succès !")),
+              SnackBar(content: Text("Ressource $name supprimée avec succès !")),
             );
       }
 
@@ -172,7 +172,7 @@ void showSnackBarFailFileSend(BuildContext context) {
 
 void showSnackBarSuccessDirAdd(BuildContext context) {
   ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Dossier crée avec succès.")),
+              SnackBar(content: Text("Dossier créé avec succès.")),
             );
 }
 
