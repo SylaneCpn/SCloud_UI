@@ -116,7 +116,7 @@ class _AddRessourceDialogState extends State<AddRessourceDialog> {
 
 
     if (nameController.text.isEmpty) {
-      showAlertDialogEmptyDirName(context);
+      showAlertDialogEmptyName(context);
       return;
     }
 
@@ -128,7 +128,7 @@ class _AddRessourceDialogState extends State<AddRessourceDialog> {
     try {
 
       final state = context.read<AppState>();
-      final result = await state.addDir( makeValidDirname(nameController.text));
+      final result = await state.addDir( makeValidName(nameController.text));
 
       if (result != FetchingReport.success) {
         Navigator.pop(context);

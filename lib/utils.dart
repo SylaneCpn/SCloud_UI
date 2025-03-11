@@ -84,9 +84,9 @@ String getRessourceName(String path) {
 
 }
 
-String makeValidDirname(String dirName) {
+String makeValidName(String name) {
   
-  return dirName.trim().replaceAll(" ", '_');
+  return name.trim().replaceAll(" ", '_');
   
 }
 

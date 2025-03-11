@@ -36,10 +36,10 @@ void showAlertDialogRefused(BuildContext context) {
     showDialog(barrierDismissible: false, context: context, builder: (BuildContext context) {return alert;});
   }
 
-  void showAlertDialogEmptyDirName(BuildContext context) {
+  void showAlertDialogEmptyName(BuildContext context) {
     AlertDialog alert = AlertDialog(
                   title: const Text('Aucun nom choissi'),
-                  content: const Text("Aucun nom n'a été choissi pour le dossier a créer."),
+                  content: const Text("Aucun nom n'a été choissi."),
                   actions: <Widget>[
                     TextButton(
                       onPressed: () => Navigator.pop(context, 'OK'),
@@ -177,9 +177,23 @@ void showSnackBarSuccessDirAdd(BuildContext context) {
 }
 
 
+
+
 void showSnackBarFailDirAdd(BuildContext context) {
   ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("Erreur : Le serveur n'autorise pas la création de dossier ou n'a pas pu écrire le dossier.")),
+            );
+}
+
+void showSnackBarSuccessRename(BuildContext context) {
+  ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Ressource renommée avec succès.")),
+            );
+}
+
+void showSnackBarFailRename(BuildContext context) {
+  ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Erreur : Le serveur n'autorise pas ou n'a pas pu renommer la ressource.")),
             );
 }
 

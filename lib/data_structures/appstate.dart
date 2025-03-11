@@ -37,8 +37,8 @@ class AppState extends ChangeNotifier {
       "$addr/adddir/usr/$name/psw/$password/$currentPath$dirName";
   String userAvatarPath() =>
       "$addr/usr/$name/psw/$password/files/$name/portrait.jpg";
-
-  bool isRootPath() => currentPath == "files/" ? true : false;
+  String parseRenamePath(String path , String newName) => "$addr/rename/usr/$name/psw/$password/to/$newName/$path";
+  bool isRootPath() => currentPath == "files/" ;
 
   Future<FetchingReport> sendFile(String path) async {
 
@@ -67,6 +67,22 @@ class AppState extends ChangeNotifier {
     try {
      
       final response = await http.post(Uri.parse(parseAddDirPath(dirName)));
+
+      if (response.statusCode == 200) return FetchingReport.success;
+      return FetchingReport.refused;
+      
+    } 
+    catch (e) {
+      rethrow;
+    }
+    
+  }
+
+  Future<FetchingReport> renameRessource(String path , String newName) async {
+
+    try {
+     
+      final response = await http.post(Uri.parse(parseRenamePath(path , newName)));
 
       if (response.statusCode == 200) return FetchingReport.success;
       return FetchingReport.refused;
