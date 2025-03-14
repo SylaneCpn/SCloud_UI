@@ -8,7 +8,7 @@ import 'package:sylcpn_io/custom_widgets/files_page_widgets/single_file_page/sin
 import 'package:sylcpn_io/data_structures/appstate.dart';
 import 'package:sylcpn_io/data_structures/fetching_report.dart';
 
-class FileCard  extends StatelessWidget{
+class FileCard extends StatelessWidget{
 
   const FileCard({super.key , required this.index});
 
