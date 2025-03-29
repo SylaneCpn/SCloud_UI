@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sylcpn_io/data_structures/appstate.dart';
 
+class GuestPage extends StatelessWidget{
 
 
-class ConnectedPage extends StatelessWidget {
-  
-  const ConnectedPage({super.key});
-  
+  final Function() formCallback;
+
+  const GuestPage({super.key , required this.formCallback});
+
   @override
   Widget build(BuildContext context) {
-    var state = context.watch<AppState>();
+    final state = context.read<AppState>();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: state.appColor,
@@ -32,16 +33,16 @@ class ConnectedPage extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(20.0),
-                    child: CircleAvatar(maxRadius: 80,backgroundImage : NetworkImage(state.userAvatarPath(),)),
+                    child: CircleAvatar(backgroundColor: Theme.of(context).cardColor , maxRadius: 80,backgroundImage : AssetImage('assets/icon/icon.png')),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(state.name, textAlign: TextAlign.center, style: TextStyle(fontSize:20),),
+                    child: Text("Invité", textAlign: TextAlign.center, style: TextStyle(fontSize:20),),
                   ),
                 ],
               ),
             ),
-            ElevatedButton(onPressed: () {state.disconnect();}, child: Text("Se deconnecter"))
+            ElevatedButton(onPressed: formCallback , child: Text("Se connecter"))
           ],
         )),
       ),

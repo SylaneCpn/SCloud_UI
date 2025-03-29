@@ -11,10 +11,10 @@ class FileListWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
 
-     List<Widget> children = paths.isEmpty ? [Card(child: Padding(
-       padding: const EdgeInsets.all(8.0),
+     List<Widget> children = paths.isEmpty ? [Padding(
+       padding: const EdgeInsets.all(20.0),
        child: Text('Aucun fichier sélectionné'),
-     ))] : paths.map((p) =>  ListTile(title: Text(getRessourceName(p)),) ).toList();
+     )] : paths.map((p) =>  ListTile(title: Text(getRessourceName(p)),) ).toList();
 
      return Column( children: children,);
     

@@ -6,7 +6,8 @@ import 'package:sylcpn_io/custom_widgets/alert_dialog.dart';
 
 // ignore: must_be_immutable
 class LoginForm extends StatefulWidget {
-  const LoginForm({super.key});
+  final Function() backCallback;
+  const LoginForm({super.key , required this.backCallback});
 
   @override
   State<LoginForm> createState() => _LoginFormState();
@@ -29,7 +30,7 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
 
-    var state = context.watch<AppState>();
+    var state = context.read<AppState>();
 
     return Scaffold(
       appBar: AppBar(title: Text('Connexion'),
@@ -44,59 +45,70 @@ class _LoginFormState extends State<LoginForm> {
         color: Theme.of(context).colorScheme.primaryContainer,
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Card(
+              Expanded(child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(child: IconButton(onPressed: widget.backCallback, icon: Icon(Icons.arrow_back))),
+              )],)),
+              Expanded(
+                flex: 5,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SizedBox(
-                        width: 250,
-                        child: TextField(
-                          controller: nameController,
-                          obscureText: false,
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Nom Utilisateur',
-                          ),
-                        ),
-                      ),
-                    ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                    width: 250,
-                    child: TextField(
-                      controller: passwordController,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Mot de Passe',
-                      ),
-                    ),
+                    Card(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SizedBox(
+                              width: 250,
+                              child: TextField(
+                                controller: nameController,
+                                obscureText: false,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Nom Utilisateur',
+                                ),
                               ),
-                  ),],
+                            ),
+                          ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SizedBox(
+                          width: 250,
+                          child: TextField(
+                            controller: passwordController,
+                            obscureText: true,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Mot de Passe',
+                            ),
+                          ),
+                                    ),
+                        ),],
+                      ),
+                    ),
+                    
+                   Padding(
+                     padding: const EdgeInsets.all(20.0),
+                     child: ElevatedButton(onPressed: () async {
+                      
+                      final report = await state.checkUser(nameController.text.trim(), passwordController.text.trim());
+                      if (report == FetchingReport.refused) {
+                        // ignore: use_build_context_synchronously
+                        showAlertDialogRefused(context);
+                      }
+                        
+                      else if (report == FetchingReport.networkFail) {
+                        // ignore: use_build_context_synchronously
+                        showAlertDialogNetworkFail(context);
+                      }
+                      
+                     }, child: Text("Soumettre")),
+                   )
+                  ],
                 ),
               ),
-              
-             Padding(
-               padding: const EdgeInsets.all(20.0),
-               child: ElevatedButton(onPressed: () async {
-                
-                final report = await state.checkUser(nameController.text.trim(), passwordController.text.trim());
-                if (report == FetchingReport.refused) {
-                  // ignore: use_build_context_synchronously
-                  showAlertDialogRefused(context);
-                }
-        
-                else if (report == FetchingReport.networkFail) {
-                  // ignore: use_build_context_synchronously
-                  showAlertDialogNetworkFail(context);
-                }
-                
-               }, child: Text("Soumettre")),
-             )
             ],
           ),
         ),
