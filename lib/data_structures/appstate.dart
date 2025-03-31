@@ -17,7 +17,7 @@ import 'dart:io' show File, Platform;
 import "package:sylcpn_io/utils.dart";
 
 class AppState extends ChangeNotifier {
-  static final addr = "http://192.168.1.68";
+  static final addr = "https://sylcpn.ddns.net";
   String name = "null";
   String password = "null";
   String currentPath = "files/";

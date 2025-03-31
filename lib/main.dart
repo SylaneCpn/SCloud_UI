@@ -18,7 +18,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = context.read<AppState>();
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'SCloud',
       theme: ThemeData(
         // This is the theme of your application.
         //
