@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sylcpn_io/custom_widgets/alert_dialog.dart';
@@ -26,7 +27,7 @@ class _AddRessourceDialogState extends State<AddRessourceDialog> {
   AddRessourceState widgetState = AddRessourceState.init ;
   var nameController = TextEditingController();
   RessourceType? selectedType = RessourceType.file;
-  List<String> filesPaths = [];
+  List<PlatformFile> filesPaths = [];
  
 
   void setRessourceState(AddRessourceState newState) {
@@ -59,7 +60,9 @@ class _AddRessourceDialogState extends State<AddRessourceDialog> {
     if (result != null) {
      
       setState(() {
-        filesPaths = result.paths.map((p) => p!).toList();
+        
+        filesPaths = result.files;
+        
       });
     } 
     else {
@@ -81,11 +84,24 @@ class _AddRessourceDialogState extends State<AddRessourceDialog> {
         return;
       }
 
+      
+
       List<FetchingReport> results = [];
       final state = context.read<AppState>();
-      for (final path in filesPaths) {
-        results.add(await state.sendFile(path));
+      if (kIsWeb) {
+
+        for ( final (name , content) in filesPaths.map((f) => (f.name , f.bytes))) {
+          results.add(await state.sendFileWeb(name , content!));
+        }
+
+      } 
+
+      else {
+        for (final path in filesPaths) {
+          results.add(await state.sendFile(path.path!));
+        }
       }
+      
 
       if (results.any((elem) => elem != FetchingReport.success)) {
         Navigator.pop(context);
@@ -120,7 +136,7 @@ class _AddRessourceDialogState extends State<AddRessourceDialog> {
       return;
     }
 
-    if (nameController.text.codeUnits.any((b) => b > 127)) {
+    if (isValidAscii(nameController.text)) {
       showAlertDialogInvalidString(context);
       return;
     }
@@ -128,7 +144,7 @@ class _AddRessourceDialogState extends State<AddRessourceDialog> {
     try {
 
       final state = context.read<AppState>();
-      final result = await state.addDir( makeValidName(nameController.text));
+      final result = await state.addDir(makeValidName(nameController.text));
 
       if (result != FetchingReport.success) {
         Navigator.pop(context);
@@ -198,7 +214,7 @@ class _AddRessourceDialogState extends State<AddRessourceDialog> {
       ,
     
       AddRessourceState.files => AlertDialog(title: title, actions: [TextButton(onPressed: resetRessourceState, child: Text('Retour'))],content: 
-      Column( mainAxisSize: MainAxisSize.min, children : [ FileListWidget(paths: filesPaths) , TextButton(onPressed: addFiles, child: Text("Sélectionner des fichiers")) , TextButton(onPressed: () { sendFiles(context);} , child: Text('Envoyer'))],
+      Column( mainAxisSize: MainAxisSize.min, children : [ FileListWidget(fileNames: filesPaths.map((p) => p.name).toList()) , TextButton(onPressed: addFiles, child: Text("Sélectionner des fichiers")) , TextButton(onPressed: () { sendFiles(context);} , child: Text('Envoyer'))],
         ),
       ),
 

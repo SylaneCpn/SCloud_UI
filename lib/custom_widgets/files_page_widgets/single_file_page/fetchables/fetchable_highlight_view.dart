@@ -43,7 +43,7 @@ class _FetchableHighlightViewState extends State<FetchableHighlightView> {
                 return Card.filled(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: HighlightView(padding : widget.padding , theme : widget.theme, languageId: widget.languageId , snapshot.data!.length < 10000 ? String.fromCharCodes(snapshot.data!) : 'Le fichier est trop volumineux pour être affiché...'  ),
+                    child: HighlightView(padding : widget.padding , theme : widget.theme, languageId: widget.languageId , snapshot.data!.length < 100000 ? String.fromCharCodes(snapshot.data!) : 'Le fichier est trop volumineux pour être affiché...'  ),
                   ),
                 );
               } else if (snapshot.hasError) {

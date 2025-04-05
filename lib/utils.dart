@@ -118,3 +118,7 @@ String languageId(String name) {
 
 
   }
+
+  bool isValidAscii(String name) {
+    return !name.codeUnits.any((b) => b > 127);
+  }

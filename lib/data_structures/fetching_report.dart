@@ -1,5 +1,6 @@
 enum FetchingReport {
   success,
   refused,
-  networkFail
+  networkFail,
+  inputFail
 }

@@ -42,7 +42,7 @@ class _FetchableSelectableTextState extends State<FetchableSelectableText> {
                 return Card(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: SelectableText( snapshot.data!.length < 10000 ? String.fromCharCodes(snapshot.data!) : 'Le fichier est trop volumineux pour être affiché...' ),
+                    child: SelectableText( snapshot.data!.length < 100000 ? String.fromCharCodes(snapshot.data!) : 'Le fichier est trop volumineux pour être affiché...' ),
                   ),
                 );
               } else if (snapshot.hasError) {

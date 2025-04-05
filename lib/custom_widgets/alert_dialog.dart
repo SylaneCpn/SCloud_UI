@@ -69,7 +69,7 @@ void showAlertDialogRefused(BuildContext context) {
 void showAlertDialogNetworkFail(BuildContext context) {
     AlertDialog alert = AlertDialog(
                   title: const Text('Une erreur est survenue'),
-                  content: const Text("Impossible d'accéder au serveur. Vérifier votre connexion internet."),
+                  content: const Text("Impossible d'accéder au serveur. Vérifiez votre connexion internet."),
                   actions: <Widget>[
                     TextButton(
                       onPressed: () => Navigator.pop(context, 'OK'),
@@ -200,5 +200,12 @@ void showSnackBarFailRename(BuildContext context) {
 void showSnackBarNetworkFail(BuildContext context) {
   ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("Une erreur réseau est survenue. Vérifier votre connexion internet et réessayez.")),
+            );
+}
+
+
+void showSnackBarInvalidInput(BuildContext context) {
+  ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Un ou plusieurs fichiers contiennent un format interdit. Il n'ont pas pu être envoyés")),
             );
 }

@@ -9,12 +9,11 @@ import "package:sylcpn_io/data_structures/server_files.dart";
 import "dart:convert";
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:dio/dio.dart';
-import "package:path_provider/path_provider.dart";
 import 'package:path/path.dart' as path;
 import 'package:flutter_file_dialog/flutter_file_dialog.dart';
 import 'dart:io' show File, Platform;
-
 import "package:sylcpn_io/utils.dart";
+import 'package:web/web.dart' show HTMLAnchorElement;
 
 class AppState extends ChangeNotifier {
   static final addr = "https://sylcpn.ddns.net";
@@ -43,6 +42,7 @@ class AppState extends ChangeNotifier {
   Future<FetchingReport> sendFile(String path) async {
 
     try {
+      if (!isValidAscii(path)) return FetchingReport.inputFail;
       //get the file 
       final file =  File(path);
       final body = await file.readAsBytes();
@@ -51,6 +51,26 @@ class AppState extends ChangeNotifier {
       // send data to the network
       final headers = <String, String> { 'Content-Type' : matchMimetypeFromExt(fName) }; 
       final response = await http.post(Uri.parse(parseAddFilePath(fName)) , headers: headers , body : body);
+
+      if (response.statusCode == 200) return FetchingReport.success;
+      return FetchingReport.refused;
+      
+    } 
+    catch (e) {
+      rethrow;
+    }
+    
+  }
+
+  Future<FetchingReport> sendFileWeb(String fileName , Uint8List content ) async {
+
+    try {
+      
+      if (!isValidAscii(fileName)) return FetchingReport.inputFail;
+
+      // send data to the network
+      final headers = <String, String> { 'Content-Type' : matchMimetypeFromExt(fileName) }; 
+      final response = await http.post(Uri.parse(parseAddFilePath(fileName)) , headers: headers , body : content);
 
       if (response.statusCode == 200) return FetchingReport.success;
       return FetchingReport.refused;
@@ -117,20 +137,18 @@ class AppState extends ChangeNotifier {
       
 
       if (kIsWeb) {
-        final dir =
-            await getDownloadsDirectory() ??
-            await getApplicationDocumentsDirectory();
-        final filePath = "${dir.path}/${filesInPath[index].name}";
+        
 
-        final dio = Dio();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Début du téléchergement de : ${filesInPath[index].name}.')),
         );
-        await dio.download(url, filePath);
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Fichier téléchargé à : $filePath')),
-        );
+        HTMLAnchorElement()
+      ..href = url
+      ..download = url
+      ..click();
+
+      
       } else {
         if (Platform.isAndroid || Platform.isIOS) {
           final selectedDir = await FlutterFileDialog.pickDirectory();
@@ -174,7 +192,7 @@ class AppState extends ChangeNotifier {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            "Une erreur s'est produite. Le fichier n'a pas pu être téléchargé",
+            "Une erreur s'est produite. Le fichier n'a pas pu être téléchargé.",
           ),
         ),
       );
