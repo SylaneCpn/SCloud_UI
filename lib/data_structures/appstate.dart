@@ -145,7 +145,7 @@ class AppState extends ChangeNotifier {
 
         HTMLAnchorElement()
       ..href = url
-      ..download = url
+      ..download = filesInPath[index].name
       ..click();
 
       
