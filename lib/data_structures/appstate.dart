@@ -132,7 +132,7 @@ class AppState extends ChangeNotifier {
       final String url = parseGetExtPath(filesInPath[index].full_path);
       final downloader = AbstractDownloader.instance;
 
-      downloader.download(context, url, filesInPath[index].name);
+      await downloader.download(context, url, filesInPath[index].name);
 
       
 
