@@ -3,7 +3,7 @@ import "dart:typed_data";
 
 import "package:flutter/material.dart";
 import "package:http/http.dart" as http;
-import "package:sylcpn_io/data_structures/downloader/abstract_downloader.dart";
+import "package:sylcpn_io/data_structures/downloader/downloader.dart";
 import "package:sylcpn_io/data_structures/fetching_report.dart";
 import "package:sylcpn_io/data_structures/fetching_state.dart";
 import "package:sylcpn_io/data_structures/server_files.dart";
@@ -130,7 +130,7 @@ class AppState extends ChangeNotifier {
   Future<void> downloadFile(int index, BuildContext context) async {
     try {
       final String url = parseGetExtPath(filesInPath[index].full_path);
-      final downloader = AbstractDownloader.instance;
+      final downloader = Downloader.instance;
 
       await downloader.download(context, url, filesInPath[index].name);
 
