@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:sylcpn_io/custom_widgets/files_page_widgets/error_files_page.dart';
 import 'package:sylcpn_io/custom_widgets/files_page_widgets/success_file_page.dart';
 import 'package:sylcpn_io/data_structures/appstate.dart';
@@ -14,6 +15,13 @@ class FilesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+        DeviceOrientation.landscapeLeft,
+        DeviceOrientation.landscapeRight
+      ]);
 
     final state = context.watch<AppState>();
     if (state.pathState == FetchingState.init) state.initFilesInPath();

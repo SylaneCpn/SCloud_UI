@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sylcpn_io/custom_widgets/home_page_widgets/connected.dart';
 import 'package:sylcpn_io/custom_widgets/home_page_widgets/diconnected.dart';
@@ -13,6 +14,10 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
 
     var state = context.watch<AppState>();
 

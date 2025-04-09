@@ -122,3 +122,10 @@ String languageId(String name) {
   bool isValidAscii(String name) {
     return !name.codeUnits.any((b) => b > 127);
   }
+
+  String shortenText(String text , int size) {
+    if (text.length > size) {
+      return '${text.substring(0,size-3)}...';
+    }
+    return text;
+  }
