@@ -1,19 +1,16 @@
 import "dart:typed_data";
 
-import "package:file_picker/file_picker.dart";
+
 import "package:flutter/material.dart";
 import "package:http/http.dart" as http;
+import "package:sylcpn_io/data_structures/downloader/abstract_downloader.dart";
 import "package:sylcpn_io/data_structures/fetching_report.dart";
 import "package:sylcpn_io/data_structures/fetching_state.dart";
 import "package:sylcpn_io/data_structures/server_files.dart";
 import "dart:convert";
-import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:dio/dio.dart';
-import 'package:path/path.dart' as path;
-import 'package:flutter_file_dialog/flutter_file_dialog.dart';
-import 'dart:io' show File, Platform;
+import 'dart:io' show File;
 import "package:sylcpn_io/utils.dart";
-import 'package:web/web.dart' show HTMLAnchorElement;
+
 
 class AppState extends ChangeNotifier {
   static final addr = "https://sylcpn.ddns.net";
@@ -133,61 +130,13 @@ class AppState extends ChangeNotifier {
   Future<void> downloadFile(int index, BuildContext context) async {
     try {
       final String url = parseGetExtPath(filesInPath[index].full_path);
+      final downloader = AbstractDownloader.instance;
+
+      downloader.download(context, url, filesInPath[index].name);
 
       
 
-      if (kIsWeb) {
-        
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Début du téléchergement de : ${filesInPath[index].name}.')),
-        );
-
-        HTMLAnchorElement()
-      ..href = url
-      ..download = filesInPath[index].name
-      ..click();
-
       
-      } else {
-        if (Platform.isAndroid || Platform.isIOS) {
-          final selectedDir = await FlutterFileDialog.pickDirectory();
-          if (selectedDir == null) return;
-          final mimeType = matchMimetype(
-            filesInPath[index].name,
-            filesInPath[index].content_type,
-          );
-          ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Début du téléchergement de : ${filesInPath[index].name}.')),
-          );
-          final bytes = await getRawRessource(filesInPath[index].full_path);
-          final filePath = await FlutterFileDialog.saveFileToDirectory(
-            mimeType: mimeType,
-            directory: selectedDir,
-            data: bytes,
-            fileName: filesInPath[index].name,
-          );
-
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Fichier téléchargé à : $filePath')),
-          );
-        } else {
-          final selectedDir = await FilePicker.platform.getDirectoryPath();
-          if (selectedDir == null) return;
-
-          final fileName = path.basename(url);
-          final dio = Dio();
-          final savePath = "$selectedDir/$fileName";
-          ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Début du téléchergement de : ${filesInPath[index].name}.')),
-          );
-          await dio.download(url, savePath);
-
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Fichier téléchargé à : $savePath')),
-          );
-        }
-      }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

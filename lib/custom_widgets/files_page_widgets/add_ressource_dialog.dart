@@ -89,7 +89,7 @@ class _AddRessourceDialogState extends State<AddRessourceDialog> {
       List<FetchingReport> results = [];
       final state = context.read<AppState>();
       if (kIsWeb) {
-
+        
         for ( final (name , content) in filesPaths.map((f) => (f.name , f.bytes))) {
           results.add(await state.sendFileWeb(name , content!));
         }
@@ -103,13 +103,22 @@ class _AddRessourceDialogState extends State<AddRessourceDialog> {
       }
       
 
-      if (results.any((elem) => elem != FetchingReport.success)) {
+      if (results.any((elem) => elem == FetchingReport.inputFail)) {
+        Navigator.pop(context);
+        showSnackBarFailFileSend(context);
+      }
+      
+      else if (results.any((elem) => elem != FetchingReport.success)) {
         Navigator.pop(context);
         showSnackBarFailFileSend(context);
       }
 
-      Navigator.pop(context);
-      showSnackBarSuccessFileSend(context);
+      else {
+        Navigator.pop(context);
+        showSnackBarSuccessFileSend(context);
+      }
+
+      
       final fetchingReport = await state.refreshDir();
 
       if (fetchingReport == FetchingReport.networkFail)  showSnackBarNetworkFail(context);
