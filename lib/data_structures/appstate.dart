@@ -130,7 +130,7 @@ class AppState extends ChangeNotifier {
   Future<void> downloadFile(int index, BuildContext context) async {
     try {
       final String url = parseGetExtPath(filesInPath[index].full_path);
-      final downloader = Downloader.instance;
+      final downloader = Downloader.init();
 
       await downloader.download(context, url, filesInPath[index].name);
 
