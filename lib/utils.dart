@@ -84,6 +84,14 @@ String getRessourceName(String path) {
 
 }
 
+String getRessourceNameFromUrl(String path) {
+
+  final pointpos = path.lastIndexOf("\\");
+  final ext = path.substring(pointpos + 1);
+  return ext;
+
+}
+
 String makeValidName(String name) {
   
   return name.trim().replaceAll(" ", '_');
