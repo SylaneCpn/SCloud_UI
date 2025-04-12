@@ -11,7 +11,7 @@ abstract class Downloader {
     
   }
 
-  Future<void> download(BuildContext context , String url , String fileName);
+  Future<void> download(BuildContext context , String url , String nameFile);
 }
 
 

@@ -14,19 +14,19 @@ external js.JSPromise<js.JSString> saveFile(String url , String name);
 
 class WebDownloader extends Downloader {
   @override
-  Future<void> download(BuildContext context, String url, String fileName) async {
+  Future<void> download(BuildContext context, String url, String nameFile) async {
 
   
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Choisissez où savegarder : $fileName.')),
+          SnackBar(content: Text('Choisissez où savegarder : $nameFile.')),
           );
 
-          final result = await (saveFile(url , fileName)).toDart;
+          final result = await (saveFile(url , nameFile)).toDart;
 
           switch(result.toDart) {
             case 'refused':
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Téléchargement échoué , le serveur refuse le téléchargement de : $fileName.')),
+                SnackBar(content: Text('Téléchargement échoué , le serveur refuse le téléchargement de : $nameFile.')),
               );
             
 
