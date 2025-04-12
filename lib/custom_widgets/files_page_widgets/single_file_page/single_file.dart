@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_highlighting/themes/vs.dart';
 import 'package:pdfrx/pdfrx.dart';
-import 'package:provider/provider.dart';
+
 import 'package:sylcpn_io/custom_widgets/files_page_widgets/single_file_page/fetchables/fetchable_highlight_view.dart';
 import 'package:sylcpn_io/custom_widgets/files_page_widgets/single_file_page/fetchables/fetchable_selectable_text.dart';
 import 'package:sylcpn_io/custom_widgets/files_page_widgets/single_file_page/network_video_player.dart';
-import 'package:sylcpn_io/data_structures/appstate.dart';
+
 import 'package:sylcpn_io/utils.dart';
 
 class SingleFile  extends StatelessWidget{
@@ -32,11 +32,8 @@ class SingleFile  extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    final state = context.read<AppState>();
     return Scaffold(
         appBar: AppBar( 
-        backgroundColor: state.appColor,
-        foregroundColor: Theme.of(context).colorScheme.onPrimary,
         title: Text(name),
         leading: IconButton(onPressed: () { Navigator.pop(context);} , icon: Icon(Icons.arrow_back)),),
         body: Container(color : Theme.of(context).colorScheme.primaryContainer ,child: Center(child: mapContentTypeWidget(context),)),

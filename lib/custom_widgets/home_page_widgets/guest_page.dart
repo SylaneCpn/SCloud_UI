@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:sylcpn_io/data_structures/appstate.dart';
+
 
 class GuestPage extends StatelessWidget{
 
@@ -11,11 +10,9 @@ class GuestPage extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    final state = context.read<AppState>();
+    
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: state.appColor,
-        foregroundColor: Theme.of(context).colorScheme.onPrimary,
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Image.asset('assets/icon/icon_white.png'),

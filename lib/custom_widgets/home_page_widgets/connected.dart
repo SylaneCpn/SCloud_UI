@@ -13,8 +13,7 @@ class ConnectedPage extends StatelessWidget {
     var state = context.watch<AppState>();
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: state.appColor,
-        foregroundColor: Theme.of(context).colorScheme.onPrimary,
+        
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Image.asset('assets/icon/icon_white.png'),

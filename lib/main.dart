@@ -36,6 +36,7 @@ class App extends StatelessWidget {
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: state.appColor),
+        appBarTheme: AppBarTheme( color : state.appColor , foregroundColor: Theme.of(context).colorScheme.onPrimary ),
         useMaterial3: true,
       ),
       home: MainPage(),
