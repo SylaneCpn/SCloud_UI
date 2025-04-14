@@ -41,7 +41,6 @@ dependencies:
   path_provider: ^2.1.5
   permission_handler: ^11.4.0
   path: ^1.9.1
-  flutter_file_dialog: ^3.0.2
   flutter_launcher_icons: ^0.14.3
   pdfrx: ^1.1.11
   media_kit: ^1.1.11
@@ -112,3 +111,12 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+  fonts:
+    - family: Rubik
+      fonts:
+        - asset: fonts/Rubik-Regular.ttf
+    - family: IndieFlower
+      fonts:
+        - asset: fonts/IndieFlower-Regular.ttf
+        

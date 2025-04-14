@@ -90,18 +90,15 @@ class FileCard extends StatelessWidget{
           Expanded(
             flex : 1,
             child: image ),
-          Expanded(
-            flex : 1,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                !state.isRootPath() ? GestureDetector(onTap : () {state.isConnected ? showDialog(barrierDismissible: false, context: context, builder: (BuildContext context) {return RenameRessourceDialog(index: index,);}) : showNotConnectedDialog(context);} ,child : Text( textAlign: TextAlign.center, shortenText(name, 45) )) : Text( textAlign: TextAlign.center, name) ,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: iconWidgets,
-                ),
-              ],
-            ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              !state.isRootPath() ? GestureDetector(onTap : () {state.isConnected ? showDialog(barrierDismissible: false, context: context, builder: (BuildContext context) {return RenameRessourceDialog(index: index,);}) : showNotConnectedDialog(context);} ,child : FittedBox(child: Text( textAlign: TextAlign.center, shortenText(name, 35) ))) : FittedBox(child: Text( textAlign: TextAlign.center, shortenText(name, 35))) ,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: iconWidgets,
+              ),
+            ],
           ),
         ],
       ),

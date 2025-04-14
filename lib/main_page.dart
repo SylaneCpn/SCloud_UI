@@ -27,7 +27,6 @@ class _MainPageState extends State<MainPage> {
             currentPageIndex = index;
           });
         },
-        indicatorColor: Color.fromARGB(255, 82, 113, 255),
         selectedIndex: currentPageIndex,
         destinations: [
           NavigationDestination(

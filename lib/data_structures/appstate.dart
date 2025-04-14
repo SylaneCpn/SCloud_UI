@@ -21,6 +21,7 @@ class AppState extends ChangeNotifier {
   List<ServerFile> filesInPath = [];
   FetchingState pathState = FetchingState.init;
   Color appColor = Color.fromARGB(255, 82, 113, 255);
+  
  
 
   String parseGetExtPath(String path) => "$addr/usr/$name/psw/$password/$path";
@@ -129,7 +130,7 @@ class AppState extends ChangeNotifier {
 
   Future<void> downloadFile(int index, BuildContext context) async {
     try {
-      
+
       final String url = parseGetExtPath(filesInPath[index].full_path);
       final downloader = Downloader.init();
       await downloader.download(context, url, filesInPath[index].name);

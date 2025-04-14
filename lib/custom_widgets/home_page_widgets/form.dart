@@ -47,12 +47,14 @@ class _LoginFormState extends State<LoginForm> {
         child: Center(
           child: Column(
             children: [
-              Expanded(child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Card(child: IconButton(onPressed: widget.backCallback, icon: Icon(Icons.arrow_back))),
-              )],)),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Card(child: IconButton(onPressed: widget.backCallback, icon: Icon(Icons.arrow_back))),
+                ),
+              ),
               Expanded(
-                flex: 5,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

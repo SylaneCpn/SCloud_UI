@@ -35,8 +35,10 @@ class App extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
+        fontFamily: "Rubik" ,
         colorScheme: ColorScheme.fromSeed(seedColor: state.appColor),
         appBarTheme: AppBarTheme( color : state.appColor , foregroundColor: Theme.of(context).colorScheme.onPrimary ),
+        navigationBarTheme: NavigationBarThemeData( indicatorColor: state.appColor),
         useMaterial3: true,
       ),
       home: MainPage(),
