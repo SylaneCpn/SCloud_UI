@@ -16,10 +16,6 @@ class WebDownloader extends Downloader {
   @override
   Future<void> download(BuildContext context, String url, String nameFile) async {
 
-  
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Choisissez où savegarder : $nameFile.')),
-          );
 
           final result = await (saveFile(url , nameFile)).toDart;
 
@@ -38,6 +34,11 @@ class WebDownloader extends Downloader {
             case 'success':
               ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Fichier téléchargé avec succès.')),
+          );
+
+          case 'fail':
+              ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Le téléchargement a échoué.')),
           );
 
           case _ :
