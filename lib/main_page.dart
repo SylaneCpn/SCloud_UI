@@ -22,6 +22,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: NavigationBar(
+        height: 70.0,
         onDestinationSelected: (int index) {
           setState(() {
             currentPageIndex = index;

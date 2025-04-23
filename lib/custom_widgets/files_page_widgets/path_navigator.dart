@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:sylcpn_io/custom_widgets/alert_dialog.dart';
@@ -53,13 +54,17 @@ class _PathNavigatorState extends State<PathNavigator> {
     final List<Widget> wids =
         splitedPath
             .mapIndexed(
-              (index, elem) => GestureDetector(
-                onSecondaryTap: resetSelectedIndex,
-                onTapCancel: resetSelectedIndex,
-                onTap: () {
-                  setSelectedIndex(index);
+              (index, elem) => InkWell(
+                hoverColor: Colors.transparent,
+                onHover: (value) {
+                  if (value) {
+                    setSelectedIndex(index);
+                  } else {
+                    resetSelectedIndex();
+                  }
                 },
-                onDoubleTap: () async {
+                onTap: () async {
+                  setSelectedIndex(index);
                   final report = await state.getNextDir(
                     constructPath(splitedPath, index),
                   );
@@ -75,9 +80,7 @@ class _PathNavigatorState extends State<PathNavigator> {
                 child:
                     (selectedIndex == index)
                         ? Text(
-                          style: TextStyle(
-                            color: state.appColor,
-                          ),
+                          style: TextStyle(color: state.appColor),
                           "$elem/",
                         )
                         : Text("$elem/"),
