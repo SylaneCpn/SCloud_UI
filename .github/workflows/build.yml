@@ -77,26 +77,33 @@ jobs:
           architecture: x64
           cache: true
           
-      - name: Install Dependencies
-        run: |
-          flutter pub get
-          flutter precache --windows
+      - name: Enable Windows Support
+        run: flutter create --platforms=windows --project-name . .
+          
+      - name: Install Build Tools
+        uses: lukka/run-vcpkg@v15
+        with:
+          vcpkgDirectory: '${{ github.workspace }}/vcpkg'
+          setupOnly: true
           
       - name: Build Windows
-        run: flutter build windows --release
+        run: |
+          flutter pub get
+          flutter build windows --release
           
       - name: Verify Build Output
-        run: dir build/windows/runner /s
+        run: |
+          cd build\windows
+          dir /s
           
       - name: Upload Windows Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: windows-app
           path: |
-            build/windows/runner/x64/release/*.exe
-            build/windows/runner/x64/release/*.dll
-            build/windows/runner/x64/release/data/*
-            build/windows/runner/x64/release/flutter_assets/*
+            build/windows/x64/runner/Release/*.exe
+            build/windows/x64/runner/Release/*.dll
+            build/windows/x64/runner/Release/data/**
 
   build-linux:
     runs-on: ubuntu-latest
