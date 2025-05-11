@@ -80,28 +80,24 @@ jobs:
       - name: Enable Windows Platform
         run: flutter create --platforms=windows .
           
-      - name: Set up Build Tools
-        uses: microsoft/setup-msbuild@v2
+      - name: Upgrade Dependencies
+        run: |
+          flutter pub upgrade --major-versions
+          flutter pub get
           
       - name: Build Windows
         run: |
-          flutter pub get
-          flutter build windows --release --target-platform windows-x64
+          flutter clean
+          flutter build windows --release
           
       - name: Verify Build Output
-        run: |
-          cd build/windows
-          dir /s
+        run: dir build\windows\runner\Release
           
       - name: Upload Windows Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: windows-app
-          path: |
-            build/windows/**/*.exe
-            build/windows/**/*.dll
-            build/windows/**/data/**
-            build/windows/**/flutter_assets/**
+          path: build/windows/runner/Release
 
   build-linux:
     runs-on: ubuntu-latest
