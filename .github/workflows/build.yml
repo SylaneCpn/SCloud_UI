@@ -80,18 +80,18 @@ jobs:
       - name: Enable Windows Support
         run: flutter create --platforms=windows --project-name . .
           
-      - name: Install Build Tools
-        uses: lukka/run-vcpkg@v15
-        with:
-          vcpkgDirectory: '${{ github.workspace }}/vcpkg'
-          setupOnly: true
+      - name: Set up MSBuild
+        uses: microsoft/setup-msbuild@v1
+      
+      - name: Install Windows SDK
+        uses: windows-actions/setup-msbuild@v1
           
       - name: Build Windows
         run: |
           flutter pub get
-          flutter build windows --release
+          flutter build windows --release --verbose
           
-      - name: Verify Build Output
+      - name: Verify Build Structure
         run: |
           cd build\windows
           dir /s
@@ -101,9 +101,9 @@ jobs:
         with:
           name: windows-app
           path: |
-            build/windows/x64/runner/Release/*.exe
-            build/windows/x64/runner/Release/*.dll
-            build/windows/x64/runner/Release/data/**
+            build/windows/runner/**/*.exe
+            build/windows/runner/**/*.dll
+            build/windows/runner/**/data/**
 
   build-linux:
     runs-on: ubuntu-latest
