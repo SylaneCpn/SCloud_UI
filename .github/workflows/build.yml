@@ -46,16 +46,24 @@ jobs:
           channel: 'stable'
           cache: true
           
+      - name: Install CocoaPods
+        run: |
+          sudo gem install cocoapods
+          pod setup
+          
       - name: Build iOS
         run: |
           flutter pub get
+          cd ios
+          pod install
+          cd ..
           flutter build ios --release --no-codesign
           
-      - name: Upload iOS
+      - name: Upload iOS Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: ios-app
-          path: build/ios/Release
+          path: build/ios/Release-iphoneos/
 
   build-windows:
     runs-on: windows-latest
@@ -69,16 +77,22 @@ jobs:
           architecture: x64
           cache: true
           
-      - name: Build Windows
+      - name: Install Dependencies
         run: |
           flutter pub get
-          flutter build windows --release
+          flutter precache --windows
           
-      - name: Upload Windows
+      - name: Build Windows
+        run: flutter build windows --release
+          
+      - name: Upload Windows Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: windows-app
-          path: build/windows/runner/Release
+          path: |
+            build/windows/runner/**/Release/*.exe
+            build/windows/runner/**/Release/*.dll
+            build/windows/runner/**/Release/data/
 
   build-linux:
     runs-on: ubuntu-latest
@@ -135,4 +149,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: macos-app
-          path: build/macos/Build/Products/Release
+          path: build/macos/Build/Products/Release/*.app
