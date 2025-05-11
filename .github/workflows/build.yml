@@ -88,16 +88,24 @@ jobs:
       - name: Build Windows
         run: |
           flutter clean
-          flutter build windows --release
+          flutter build windows --release --verbose
           
-      - name: Verify Build Output
-        run: dir build\windows\runner\Release
+      - name: Diagnose Build Output
+        run: |
+          echo "Full build directory structure:"
+          dir build/windows -Recurse
+          echo "Possible exe locations:"
+          Get-ChildItem -Path build -Filter *.exe -Recurse -File -ErrorAction SilentlyContinue
           
       - name: Upload Windows Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: windows-app
-          path: build/windows/runner/Release
+          path: |
+            build/windows/**/*.exe
+            build/windows/**/*.dll
+            build/windows/**/data/**
+            build/windows/**/flutter_assets/**
 
   build-linux:
     runs-on: ubuntu-latest
