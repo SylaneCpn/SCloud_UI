@@ -77,23 +77,20 @@ jobs:
           architecture: x64
           cache: true
           
-      - name: Enable Windows Support
-        run: flutter create --platforms=windows --project-name . .
+      - name: Enable Windows Platform
+        run: flutter create --platforms=windows .
           
-      - name: Set up MSBuild
-        uses: microsoft/setup-msbuild@v1
-      
-      - name: Install Windows SDK
-        uses: windows-actions/setup-msbuild@v1
+      - name: Set up Build Tools
+        uses: microsoft/setup-msbuild@v2
           
       - name: Build Windows
         run: |
           flutter pub get
-          flutter build windows --release --verbose
+          flutter build windows --release --target-platform windows-x64
           
-      - name: Verify Build Structure
+      - name: Verify Build Output
         run: |
-          cd build\windows
+          cd build/windows
           dir /s
           
       - name: Upload Windows Artifacts
@@ -101,9 +98,10 @@ jobs:
         with:
           name: windows-app
           path: |
-            build/windows/runner/**/*.exe
-            build/windows/runner/**/*.dll
-            build/windows/runner/**/data/**
+            build/windows/**/*.exe
+            build/windows/**/*.dll
+            build/windows/**/data/**
+            build/windows/**/flutter_assets/**
 
   build-linux:
     runs-on: ubuntu-latest
