@@ -1,6 +1,5 @@
 import "dart:typed_data";
 
-
 import "package:flutter/material.dart";
 import "package:http/http.dart" as http;
 import "package:sylcpn_io/data_structures/downloader/downloader.dart";
@@ -11,7 +10,6 @@ import "dart:convert";
 import 'dart:io' show File;
 import "package:sylcpn_io/utils.dart";
 
-
 class AppState extends ChangeNotifier {
   static final addr = "https://sylcpn.ddns.net";
   String name = "null";
@@ -21,8 +19,6 @@ class AppState extends ChangeNotifier {
   List<ServerFile> filesInPath = [];
   FetchingState pathState = FetchingState.init;
   Color appColor = Color.fromARGB(255, 82, 113, 255);
-  
- 
 
   String parseGetExtPath(String path) => "$addr/usr/$name/psw/$password/$path";
   String parseVerifPath(String n, String p) => "$addr/usr/$n/psw/$p/";
@@ -34,107 +30,95 @@ class AppState extends ChangeNotifier {
       "$addr/adddir/usr/$name/psw/$password/$currentPath$dirName";
   String userAvatarPath() =>
       "$addr/usr/$name/psw/$password/files/$name/portrait.jpg";
-  String parseRenamePath(String path , String newName) => "$addr/rename/usr/$name/psw/$password/to/$newName/$path";
-  bool isRootPath() => currentPath == "files/" ;
+  String parseRenamePath(String path, String newName) =>
+      "$addr/rename/usr/$name/psw/$password/to/$newName/$path";
+  bool isRootPath() => currentPath == "files/";
 
   Future<FetchingReport> sendFile(String path) async {
-
     try {
       if (!isValidAscii(path)) return FetchingReport.inputFail;
-      //get the file 
-      final file =  File(path);
+      //get the file
+      final file = File(path);
       final body = await file.readAsBytes();
       final fName = getRessourceName(path);
 
       // send data to the network
-      final headers = <String, String> { 'Content-Type' : matchMimetypeFromExt(fName) }; 
-      final response = await http.post(Uri.parse(parseAddFilePath(fName)) , headers: headers , body : body);
+      final headers = <String, String>{
+        'Content-Type': matchMimetypeFromExt(fName),
+      };
+      final response = await http.post(
+        Uri.parse(parseAddFilePath(fName)),
+        headers: headers,
+        body: body,
+      );
 
       if (response.statusCode == 200) return FetchingReport.success;
       return FetchingReport.refused;
-      
-    } 
-    catch (e) {
+    } catch (e) {
       rethrow;
     }
-    
   }
 
-  Future<FetchingReport> sendFileWeb(String fileName , Uint8List content ) async {
-
+  Future<FetchingReport> sendFileWeb(String fileName, Uint8List content) async {
     try {
-      
       if (!isValidAscii(fileName)) return FetchingReport.inputFail;
 
       // send data to the network
-      final headers = <String, String> { 'Content-Type' : matchMimetypeFromExt(fileName) }; 
-      final response = await http.post(Uri.parse(parseAddFilePath(fileName)) , headers: headers , body : content);
+      final headers = <String, String>{
+        'Content-Type': matchMimetypeFromExt(fileName),
+      };
+      final response = await http.post(
+        Uri.parse(parseAddFilePath(fileName)),
+        headers: headers,
+        body: content,
+      );
 
       if (response.statusCode == 200) return FetchingReport.success;
       return FetchingReport.refused;
-      
-    } 
-    catch (e) {
+    } catch (e) {
       rethrow;
     }
-    
   }
 
   Future<FetchingReport> addDir(String dirName) async {
-
     try {
-     
       final response = await http.post(Uri.parse(parseAddDirPath(dirName)));
 
       if (response.statusCode == 200) return FetchingReport.success;
       return FetchingReport.refused;
-      
-    } 
-    catch (e) {
+    } catch (e) {
       rethrow;
     }
-    
   }
 
-  Future<FetchingReport> renameRessource(String path , String newName) async {
-
+  Future<FetchingReport> renameRessource(String path, String newName) async {
     try {
-     
-      final response = await http.post(Uri.parse(parseRenamePath(path , newName)));
+      final response = await http.post(
+        Uri.parse(parseRenamePath(path, newName)),
+      );
 
       if (response.statusCode == 200) return FetchingReport.success;
       return FetchingReport.refused;
-      
-    } 
-    catch (e) {
+    } catch (e) {
       rethrow;
     }
-    
   }
 
   Future<FetchingReport> rmRessource(String path) async {
-
     try {
-
       final response = await http.delete(Uri.parse(parseRmPath(path)));
       if (response.statusCode == 200) return FetchingReport.success;
       return FetchingReport.refused;
-
-    }
-
-    catch(e) {
+    } catch (e) {
       return FetchingReport.networkFail;
     }
- 
   }
 
   Future<void> downloadFile(int index, BuildContext context) async {
     try {
-
       final String url = parseGetExtPath(filesInPath[index].full_path);
       final downloader = Downloader.init();
       await downloader.download(context, url, filesInPath[index].name);
-      
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -308,5 +292,4 @@ class AppState extends ChangeNotifier {
     password = p;
     resetFileInPath();
   }
-
 }

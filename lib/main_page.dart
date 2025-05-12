@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sylcpn_io/pages/files.dart';
 import 'package:sylcpn_io/pages/home.dart';
 
-
-
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
 
@@ -11,12 +9,8 @@ class MainPage extends StatefulWidget {
   State<MainPage> createState() => _MainPageState();
 }
 
-
 class _MainPageState extends State<MainPage> {
   int currentPageIndex = 0;
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -37,17 +31,17 @@ class _MainPageState extends State<MainPage> {
           ),
           NavigationDestination(
             selectedIcon: Icon(Icons.file_present_rounded),
-            icon:  Icon(Icons.file_present_outlined),
+            icon: Icon(Icons.file_present_outlined),
             label: 'Fichiers',
           ),
-          
         ],
       ),
-      body: <Widget>[
-        /// Home page
-        Home(),
-        FilesPage(),
-      ][currentPageIndex],
+      body:
+          <Widget>[
+            /// Home page
+            Home(),
+            FilesPage(),
+          ][currentPageIndex],
     );
   }
 }

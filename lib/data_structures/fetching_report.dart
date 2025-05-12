@@ -1,6 +1,1 @@
-enum FetchingReport {
-  success,
-  refused,
-  networkFail,
-  inputFail
-}
+enum FetchingReport { success, refused, networkFail, inputFail }

@@ -1,6 +1,1 @@
-enum AddRessourceState {
-  init,
-  files,
-  directory
-
-}
+enum AddRessourceState { init, files, directory }

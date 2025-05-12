@@ -1,5 +1,1 @@
-enum FetchingState {
-  init,
-  success,
-  failure
-}
+enum FetchingState { init, success, failure }

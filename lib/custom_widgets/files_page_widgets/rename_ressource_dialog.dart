@@ -5,21 +5,18 @@ import 'package:sylcpn_io/data_structures/appstate.dart';
 import 'package:sylcpn_io/data_structures/fetching_report.dart';
 import 'package:sylcpn_io/utils.dart';
 
-class RenameRessourceDialog extends StatefulWidget{
+class RenameRessourceDialog extends StatefulWidget {
   final int index;
-  const RenameRessourceDialog({super.key , required this.index});
+  const RenameRessourceDialog({super.key, required this.index});
 
   @override
   State<RenameRessourceDialog> createState() => _RenameRessourceDialogState();
 }
 
 class _RenameRessourceDialogState extends State<RenameRessourceDialog> {
-
   var nameController = TextEditingController();
 
-
-  Future<void> rename(BuildContext context , String path) async {
-    
+  Future<void> rename(BuildContext context, String path) async {
     if (nameController.text.isEmpty) {
       showAlertDialogEmptyName(context);
       return;
@@ -31,9 +28,11 @@ class _RenameRessourceDialogState extends State<RenameRessourceDialog> {
     }
 
     try {
-
       final state = context.read<AppState>();
-      final result = await state.renameRessource(path ,makeValidName(nameController.text));
+      final result = await state.renameRessource(
+        path,
+        makeValidName(nameController.text),
+      );
 
       if (result != FetchingReport.success) {
         Navigator.pop(context);
@@ -41,17 +40,15 @@ class _RenameRessourceDialogState extends State<RenameRessourceDialog> {
         return;
       }
 
-
       Navigator.pop(context);
       showSnackBarSuccessRename(context);
       final fetchingReport = await state.refreshDir();
 
-      if (fetchingReport == FetchingReport.networkFail)  showSnackBarNetworkFail(context);
-      if (fetchingReport == FetchingReport.refused) showSnackBarRefused(context);
-      
-    }
-
-    catch(e) {
+      if (fetchingReport == FetchingReport.networkFail)
+        showSnackBarNetworkFail(context);
+      if (fetchingReport == FetchingReport.refused)
+        showSnackBarRefused(context);
+    } catch (e) {
       showSnackBarNetworkFail(context);
     }
   }
@@ -61,19 +58,38 @@ class _RenameRessourceDialogState extends State<RenameRessourceDialog> {
     final state = context.read<AppState>();
     final name = state.filesInPath[widget.index].name;
     final path = state.filesInPath[widget.index].full_path;
-    return AlertDialog(title: Text('Renommer : $name ?'), actions: [TextButton(onPressed: () {Navigator.pop(context);}, child: Text('Retour'))], content: Column( mainAxisSize: MainAxisSize.min,
-        children: [Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextField(
-                        controller: nameController,
-                        obscureText: false,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Nouveau nom',
-                        ),
-                      ),
+    return AlertDialog(
+      title: Text('Renommer : $name ?'),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Text('Retour'),
         ),
-                    TextButton(onPressed: () {rename(context , path);}, child: Text('Renommer'))],
-      ),);
+      ],
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: nameController,
+              obscureText: false,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Nouveau nom',
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              rename(context, path);
+            },
+            child: Text('Renommer'),
+          ),
+        ],
+      ),
+    );
   }
 }

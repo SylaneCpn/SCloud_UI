@@ -1,4 +1,1 @@
-enum RessourceType {
-  file,
-  directory
-}
+enum RessourceType { file, directory }

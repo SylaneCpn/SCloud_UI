@@ -1,31 +1,26 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'package:media_kit/media_kit.dart';                      
-import 'package:media_kit_video/media_kit_video.dart'; 
+import 'package:media_kit/media_kit.dart';
+import 'package:media_kit_video/media_kit_video.dart';
 
-class VideoPlayer extends StatefulWidget{
-
+class VideoPlayer extends StatefulWidget {
   final Uint8List content;
 
-  const VideoPlayer({super.key , required this.content});
+  const VideoPlayer({super.key, required this.content});
 
   @override
   State<VideoPlayer> createState() => _VideoPlayerState();
 }
 
 class _VideoPlayerState extends State<VideoPlayer> {
-
-  
-// Create a [Player] to control playback.
+  // Create a [Player] to control playback.
   late final player = Player();
   // Create a [VideoController] to handle video output from [Player].
   late final controller = VideoController(player);
 
-  Future<void> openPlayer(Player player,Uint8List content) async {
-
+  Future<void> openPlayer(Player player, Uint8List content) async {
     player.open(await Media.memory(content));
-
   }
 
   @override
