@@ -1,16 +1,19 @@
-# sylcpn_io
+# SCloud
 
-A new Flutter project.
+User Interface for the SCloud project
 
-## Getting Started
+## Quick start
 
-This project is a starting point for a Flutter application.
+To build the project, clone the repository and [install the flutter sdk 
+for your system](https://docs.flutter.dev/get-started/install?_gl=1*10smu01*_ga*OTMwNDgxOTc5LjE3MzA2NzIyNzA.*_ga_04YGWK0175*czE3NDcyNTA0MDQkbzEzMCRnMCR0MTc0NzI1MDQwNCRqMCRsMCRoMA..).
 
-A few resources to get you started if this is your first Flutter project:
+Then build the project for your system by running :
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+```bash
+flutter run
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+You should have a working app.
+
+This should be enough for a quick launch.
+For more feature, please check-out the [Flutter documentation](https://docs.flutter.dev/).
